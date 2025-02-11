@@ -1,0 +1,20 @@
+  sast-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Semgrep
+      run: |
+        pip install semgrep
+
+    - name: Run Semgrep Scan
+      run: |
+        semgrep --config p/ci --sarif --output semgrep_report.sarif
+     
+    - name: Save Report as an Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: semgrep_report.sarif
+        path: semgrep_report.sarif
